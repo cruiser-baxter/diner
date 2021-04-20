@@ -1,0 +1,12 @@
+{
+  "name": "cruiser-baxter/diner",
+  "authors": [
+    {
+      "name": "Cruiser Baxter",
+      "email": "cbaxter4@mail.greenriver.edu"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+}
