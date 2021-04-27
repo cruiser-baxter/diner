@@ -20,9 +20,8 @@ $f3->route('GET /', function (){
 //
 $f3->route('GET /breakfast', function (){
     // instantiate a view object
-    //$view = new Template();
-    //echo $view->render('views/home.html');
-    echo "<h2>What's for breakfast?</h2>";
+    $view = new Template();
+    echo $view->render('views/breakfast.html');
 });
 
 // run Fat-Free
