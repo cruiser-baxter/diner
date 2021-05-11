@@ -11,6 +11,12 @@ function getMeals()
     return array("breakfast", "brunch", "lunch", "dinner");
 }
 
+// Get the condiments for the order 2 form
+function getCondiments()
+{
+    return array("ketchup", "mustard", "mayo", "sriracha");
+}
+
 /*
  * 1. Help each other
  * 2. Add a getCondiments() function to the Model

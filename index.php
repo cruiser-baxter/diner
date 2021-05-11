@@ -40,6 +40,8 @@ $f3->route('GET /breakfast/brunch/mothers-day', function(){
 });
 
 $f3->route('GET|POST /order1', function($f3){
+    // re-initialize session array
+    $_SESSION = array();
 
     //If the form has been submitted, add the data to session
     //and send the user to the next order form
@@ -78,17 +80,32 @@ $f3->route('GET|POST /order1', function($f3){
     echo $view->render('views/orderForm1.html');
 });
 
-$f3->route('GET|POST /order2', function(){
+$f3->route('GET|POST /order2', function($f3){
 
-    //If the form has been submitted, add the data to session
-    //and send the user to the summary page
+    //If the form has been submitted, validate the data
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //var_dump($_POST);
-        //Data validation will go here
 
-        $_SESSION['conds'] = implode(", ", $_POST['conds']);
-        header('location: summary');
+        //If condiments are selected
+        if (!empty($_POST['conds'])) {
+
+            //If condiments are valid
+            if (validCondiments($_POST['conds'])) {
+                $_SESSION['conds'] = implode(", ", $_POST['conds']);
+            }
+            else {
+                $f3->set('errors["conds"]', 'Invalid selection');
+            }
+        }
+
+        //If the error array is empty, redirect to summary page
+        if (empty($f3->get('errors'))) {
+            header('location: summary');
+        }
     }
+
+    //Get the condiments from the Model and send them to the View
+    $f3->set('condiments', getCondiments());
 
     //Display the second order form
     $view = new Template();
