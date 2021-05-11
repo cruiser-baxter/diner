@@ -1,74 +1,112 @@
 <?php
-// controller for the diner project
 
-// turn on error reporting
+//This is my controller for the diner project
+
+//Turn on error-reporting
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// start session
+//Start a session
 session_start();
 
+//Require autoload file
 require_once ('vendor/autoload.php');
 
-// instantiate Fat-Free
+//Instantiate Fat-Free
 $f3 = Base::instance();
 
-// define routes
-$f3->route('GET /', function (){
-    // instantiate a view object
+//Define default route
+$f3->route('GET /', function(){
+
+    //Display the home page
     $view = new Template();
     echo $view->render('views/home.html');
 });
 
-// breakfast view
-$f3->route('GET /breakfast', function (){
-    // instantiate a view object
+$f3->route('GET /breakfast', function(){
+
+    //Display the breakfast page
     $view = new Template();
     echo $view->render('views/breakfast.html');
 });
 
-// lunch view
-$f3->route('GET /lunch', function (){
-    // instantiate a view object
+$f3->route('GET /breakfast/brunch/mothers-day', function(){
+
+    //Display the breakfast page
     $view = new Template();
-    echo $view->render('views/lunch.html');
+    echo $view->render('views/mothers-day-brunch.html');
 });
 
-// order 1 view
-$f3->route('GET|POST /order1', function (){
-    // if form submitted store data in session array
-    // send user to the next order form
+$f3->route('GET|POST /order1', function(){
+
+    //If the form has been submitted, add the data to session
+    //and send the user to the next order form
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        //var_dump($_POST);
         $_SESSION['food'] = $_POST['food'];
         $_SESSION['meal'] = $_POST['meal'];
         header('location: order2');
     }
 
-    // instantiate a view object
+    //Display the first order form
     $view = new Template();
-    echo $view->render('views/order1.html');
+    echo $view->render('views/orderForm1.html');
 });
 
-// order 2 view
-$f3->route('GET|POST /order2', function (){
-    // if form submitted store data in session array
-    // send user to the next order form
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_SESSION['conds'] = implode(", ", $_POST['conds']);
+$f3->route('GET|POST /order2', function(){
 
+    //If the form has been submitted, add the data to session
+    //and send the user to the summary page
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        //var_dump($_POST);
+        //Data validation will go here
+
+        $_SESSION['conds'] = implode(", ", $_POST['conds']);
         header('location: summary');
     }
-    // instantiate a view object
+
+    //Display the second order form
     $view = new Template();
-    echo $view->render('views/order2.html');
+    echo $view->render('views/orderForm2.html');
 });
 
-// order summary view
-$f3->route('GET|POST /summary', function (){
-    // instantiate a view object
+$f3->route('GET /summary', function(){
+
+    //Display the second order form
     $view = new Template();
     echo $view->render('views/summary.html');
 });
 
-// run Fat-Free
+$f3->set('ONERROR', function($f3) {
+
+    switch ($f3->get('ERROR.code')) {
+
+        case 403:
+            $view = new Template();
+            echo $view->render('views/custom-error.html');
+            break;
+        case 404:
+            $view = new Template();
+            echo $view->render('views/custom-error.html');
+            break;
+        case 500:
+            $view = new Template();
+            echo $view->render('views/custom-error.html');
+            break;
+
+    }
+});
+
+/*
+ * $f3->set('ONERROR', function() {
+
+    $view = new Template();
+    echo $view->render('views/custom-error.html');
+
+});
+ */
+
+//Run Fat-Free
 $f3->run();
+
+

@@ -1,2 +1,2 @@
 # diner
-A website for my din
+A website for my diner
