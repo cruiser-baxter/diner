@@ -5,7 +5,7 @@
  */
 
 //Require the config file
-require_once($_SERVER['DOCUMENT_ROOT'].'/../config.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/../pdoconnect.php');
 
 class DataLayer
 {
@@ -83,6 +83,23 @@ class DataLayer
     static function getCondiments()
     {
         return array("ketchup", "mustard", "mayo", "sriracha", "maple syrup");
+    }
+
+    function getORders()
+    {
+        //1. Define the query
+        $sql = "SELECT * FROM orders;";
+
+        //2. Prepare the statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //3. Bind the parameters
+
+        //4. Execute the query
+        $statement->execute();
+
+        //5. Process the results (get OrderID)
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

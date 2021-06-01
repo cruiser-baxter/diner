@@ -16,6 +16,7 @@ $con = new Controller($f3);
 $dataLayer = new DataLayer();
 //$dataLayer->saveOrder(new Order('taco', 'lunch', 'salsa'));
 
+
 //Define default route
 $f3->route('GET /', function(){
 
@@ -46,6 +47,10 @@ $f3->route('GET|POST /order2', function($f3){
 
 $f3->route('GET /summary', function(){
     $GLOBALS['con']->summary();
+});
+
+$f3->route('GET /admin', function(){
+    $GLOBALS['con']->admin();
 });
 
 //Run Fat-Free

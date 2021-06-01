@@ -135,4 +135,19 @@ class Controller
         //This might be problematic
         unset($_SESSION['order']);
     }
+
+    function admin()
+    {
+
+        // send data to view
+        $result = $GLOBALS['dataLayer']->getORders();
+        //var_dump($result);
+
+        // add data to hive
+        $this->_f3->set('orders', $result);
+
+        //Display the admin page
+        $view = new Template();
+        echo $view->render('views/admin.html');
+    }
 }
